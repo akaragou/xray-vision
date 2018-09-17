@@ -41,6 +41,10 @@ def test_tfrecord():
           'rand_crop':True,
           'rand_flip_left_right':False,
           'rand_flip_top_bottom':False,
+          'zoom':False,
+          'shear':False,
+          'shift':False,
+          'brightness_contrast':False,
           'rand_rotate':False,
           'elastic_deformation':False,
 
