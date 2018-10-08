@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+   
+
+    <title>X-Ray Vision</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../static/css/grayscale.css" rel="stylesheet">
+
+  </head>
+
+  <body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Top</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#upload">Upload</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#about">About Me</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="masthead">
+      <div class="container d-flex h-100 align-items-center">
+        <div class="mx-auto text-center">
+          <h1 class="mx-auto my-0 text-uppercase">X-Ray Vision</h1>
+          <h2 class="text-white-50 mx-auto mt-2 mb-5">Detecting Abnormalities In X-Rays</h2>
+          <a href="#upload" class="btn btn-primary js-scroll-trigger">Get Started</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- upload Section -->
+    <section id="upload" class="upload-section text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+
+              <div class="center-div">
+              <h2 class="text-white mb-4">Upload a new X-Ray.</h2>
+               <form class="form-inline justify-content-center"  method="POST" enctype="multipart/form-data">
+              <div class="input-group" style="margin: 10px;" >
+                  <label id="browsebutton" class="btn btn-default input-group-addon" for="my-file-selector" style="background-color:white">
+
+                      <input id="my-file-selector" name=file type="file" style="display:none;">
+                      Browse...
+                  </label>
+                  <input type="text" class="form-control" style="height: 60px" readonly="">
+              </div>
+            <button type="submit" value=Upload class="btn btn-primary">Upload</button>
+          </form>
+          <p> </p>
+          <p style="color:white;">Radiologists see 50 to 100 scans in a day and typically spend a few minutes per X-Ray. X-Ray Vision is here to assit radiologist's workflow by providing results in under 10 seconds. Upload an X-Ray and you will be taken to a new page where the probability that an image contains an abnormality will be provided along with the highlighted region of abnormalitiy. </p>
+          <img  style="width:200px;height:200px; margin-right:10px;  margin-bottom:10px;" src="../static/img/example_input.png">
+          <img  style="width:200px;height:200px;  margin-bottom:10px;" src="../static/img/example_sensitivity_map.png">
+          <p style="color:white;">99.8% chance of abnormality</p>
+          <p style="color:white;"><i>Disclaimer: This app is only meant for demonstration and researh purposes and is not meant to be used in any real medical diagnosis.</p>
+                
+        </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+ <!-- About Section -->
+  <section id="about" class="about-section text-left bg-black">
+    <div class="container">
+
+        <div class="row">
+         <div align="right" class="social-media" style="text-align: center;">
+         <img  style="width:170px;height:170px; padding:8px;" src="../static/img/headshot.jpg">
+   
+          
+          <div class="social d-flex justify-content-center">
+          <a href="mailto:karagounis.l.andreas@gmail.com" class="mx-2">
+            <i class="fa fa-envelope fa-fw"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/akaragou/" class="mx-2">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="https://github.com/akaragou" class="mx-2">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
+          </div>
+          <div class="col-lg-8 ">
+
+            <h1  style="color:white;" class="name">Andreas Karagounis </h1>
+          
+            <hr  style="border-color:white;" ALIGN="LEFT">
+
+            <p  style="color:white;"> I am currently an Insight AI Fellow in NYC building AI tools to assist physician's workflows. 
+           </p>
+            <p  style="color:white;"> I previously completed a Masters of Science in computer science at Brown University. At Brown I worked on various research projects in computer vision. Projects include applying deep learning models to detect tumor cells in gigapixel patholgy slides and implementing deep learning models for 2D and 3D reconstruction of neurons. 
+            </p> 
+
+           
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black small text-center text-white-50">
+      <div class="container">
+        Copyright &copy; X-Ray Vision 2018
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+    <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="../static/js/grayscale.js"></script>
+
+  </body>
+
+</html>

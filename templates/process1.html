@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Processed Results</title>
+</head>
+<body>
+
+<h1>Probability of abnormality is {{prob}}</h1>
+<img src={{ url_for('send_file', filename=input_img) }} alt="input img" style="width:600px;height:600px;">
+<img src={{ url_for('send_file', filename=sensitivity_map) }} alt="sensitivity map" style="width:600px;height:600px;">
+</body>
+</html>
