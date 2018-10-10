@@ -25,7 +25,9 @@ X-Ray vision is a web app where a radiologist can upload an X-Ray and receive th
 ## App Functionality 
 
 A user can upload an image:
+
 ![plot](https://user-images.githubusercontent.com/16754088/46711410-3da15780-cc1a-11e8-86a3-3bd00710cd4e.png)
+
 Then the user will be taken to a new page were the input X-Ray, heatmap of abnormality, and proability of abnormality will be provided. Several examples are given bellow:
 
 ![plot](https://user-images.githubusercontent.com/16754088/46711411-3da15780-cc1a-11e8-8aca-ac13e413a2af.png)
