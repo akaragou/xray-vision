@@ -13,7 +13,7 @@ from operator import add
 from sklearn import metrics
 import models.resnet_v2 as resnet_v2
 import models.densenet as densenet
-from tfrecord import tfrecord2metafilename, read_and_decode, imagenet_preprocessing
+from data_utils import tfrecord2metafilename, read_and_decode, imagenet_preprocessing
 from tensorflow.python.tools.inspect_checkpoint import print_tensors_in_checkpoint_file
 import math
 
@@ -61,10 +61,10 @@ def test_resnet(device, dataset, checkpoint):
   #                                                      scope = resnet_scope,
   #                                                      is_training = False)
 
-  # with tf.variable_scope('resnet_v2_50') as resnet_scope:
+  # with tf.variable_scope('resnet_v2_101') as resnet_scope:
   #   test_img = imagenet_preprocessing(test_img)
   #   with slim.arg_scope(se_resnet.resnet_arg_scope(weight_decay = config.l2_reg, batch_norm_decay = config.batch_norm_decay, batch_norm_epsilon = config.batch_norm_epsilon)):
-  #     test_target_logits, _ = se_resnet.se_resnet_50(inputs = test_img,
+  #     test_target_logits, _ = se_resnet.se_resnet_101(inputs = test_img,
   #                                                  num_classes = config.output_shape, 
   #                                                  scope = resnet_scope,
   #                                                  is_training=False)

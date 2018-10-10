@@ -12,7 +12,7 @@ import models.densenet as densenet
 import models.unet_preprocess as unet_preprocess
 from tensorflow.contrib import slim
 from config import XRAYconfig
-from tfrecord import tfrecord2metafilename, read_and_decode, imagenet_preprocessing
+from data_utils import tfrecord2metafilename, read_and_decode, imagenet_preprocessing
 
 def weighted_softmax_cross_entropy_with_logits(train_labels, train_logits, output_shape, weights_file):
 

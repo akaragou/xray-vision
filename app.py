@@ -11,6 +11,7 @@ import base64
 import cv2
 import StringIO
 import matplotlib
+from data_utils import centered_crop, maintain_aspec_ratio_resize
 from datetime import datetime
 
 UPLOAD_FOLDER = 'uploads/'
@@ -35,17 +36,6 @@ def maintain_aspec_ratio_resize(img, desired_size=256):
 
   new_img = np.array(new_img)
   return new_img
-
-def centered_crop(img, new_height, new_width):
-  width =  np.size(img,1)
-  height =  np.size(img,0)
-  left = int(np.ceil((width - new_width)/2.))
-  top = int(np.ceil((height - new_height)/2.))
-  right = int(np.floor((width + new_width)/2.))
-  bottom = int(np.floor((height + new_height)/2.))
-
-  cImg = img[top:bottom, left:right]
-  return cImg
 
 def nocache(view):
   @wraps(view)
@@ -144,7 +134,6 @@ def process_uploaded_image(filename):
   abs_M = np.abs(M)
   sum_M = np.sum(abs_M, axis=3)
   # prediction for current batch image
-
   mask = np.squeeze(sum_M)
   thres = np.percentile(mask.ravel(), 99)
   idx = mask[:,:] < thres

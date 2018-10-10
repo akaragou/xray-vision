@@ -5,7 +5,7 @@ import glob
 import numpy as np
 import os
 import csv
-from tfrecord import create_tf_record
+from data_utils import create_tf_record
 import time
 import gc
 

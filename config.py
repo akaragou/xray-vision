@@ -17,9 +17,6 @@ class XRAYconfig():
     self.features = os.path.join(self.main_dir, 'features') 
 
     self.model_path = '/home/ubuntu/model_weights/resnet_v2_101.ckpt'
-    # self.model_path = '/home/ubuntu/model_weights/tf-densenet121.ckpt'
-    self.restore_checkpoint = '/home/ubuntu/good_checkpoints/resnet_50_2018_09_28_19_38_01_8800.ckpt'
-    # self.restore_checkpoint = '/home/ubuntu/checkpoints/se_resnet_50/se_resnet_50_2018_09_30_14_31_41_40600.ckpt'
     self.restore_checkpoint = '/home/ubuntu/checkpoints/densenet_121/densenet_121_2018_10_06_19_57_56_26100.ckpt'
 
     self.output_shape = 2
@@ -55,77 +52,60 @@ class XRAYconfig():
                                   }
 
     self.val_augmentations_dic = { 
-                                  'rand_crop':False,
-                                  'rand_flip_left_right':False,
+                                  'rand_crop':True,
+                                  'rand_flip_left_right':True,
                                   'rand_flip_top_bottom':False,
-                                  'zoom':False,
+                                  'zoom':True,
                                   'shear':False,
                                   'shift':False,
                                   'brightness_contrast':False,
-                                  'rand_rotate':False,
+                                  'rand_rotate':True,
                                   'elastic_deformation':False,
                                   }
 
     self.checkpoint_exclude_scopes = [
-                                        "resnet_v2_101/block1/unit_1/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block1/unit_2/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block1/unit_3/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block1/unit_1/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block1/unit_2/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block1/unit_3/bottleneck_v2/se_block",
 
-                                        "resnet_v2_101/block2/unit_1/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block2/unit_2/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block2/unit_3/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block2/unit_4/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block2/unit_1/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block2/unit_2/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block2/unit_3/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block2/unit_4/bottleneck_v2/se_block",
 
-                                        "resnet_v2_101/block3/unit_1/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_2/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_3/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_4/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_5/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_6/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_7/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_8/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_9/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_10/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_11/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_12/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_13/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_14/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_15/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_16/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_17/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_18/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_19/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_20/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_21/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_22/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block3/unit_23/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_1/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_2/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_3/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_4/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_5/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_6/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_7/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_8/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_9/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_10/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_11/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_12/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_13/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_14/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_15/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_16/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_17/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_18/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_19/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_20/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_21/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_22/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block3/unit_23/bottleneck_v2/se_block",
 
-                                        "resnet_v2_101/block4/unit_1/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block4/unit_2/bottleneck_v2/se_block",
-                                        "resnet_v2_101/block4/unit_3/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block4/unit_1/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block4/unit_2/bottleneck_v2/se_block",
+                                      "resnet_v2_101/block4/unit_3/bottleneck_v2/se_block",
 
-                                        "resnet_v2_101/target_fc1",
-                                        "resnet_v2_101/target_fc2",
-                                        "resnet_v2_101/target_logits",
-                                        "resnet_v2_101/target_spatial_squeeze",
+                                      "resnet_v2_101/target_fc1",
+                                      "resnet_v2_101/target_fc2",
+                                      "resnet_v2_101/target_logits",
+                                      "resnet_v2_101/target_spatial_squeeze",
                                      ]
-
-
-    # self.checkpoint_exclude_scopes = [
-
-    #                                     "densenet121/target_fc1",
-    #                                     "densenet121/target_fc2",
-    #                                     "densenet121/target_logits",
-    #                                     "densenet121/target_spatial_squeeze",
-    #                                  ]
-
-    # saliency map config
-    self.target_gradients = True
-    self.mu = 0
-    self.sd = 0.01
-    self.num_iter = 64
-    self.saliency_map_batch_size = 1
-    self.output_masked_img_dir =  ''
 
   def get_checkpoint_filename(self, model_name, run_name):
     """ 
