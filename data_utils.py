@@ -242,7 +242,7 @@ def create_tf_record(tfrecords_filename, file_pointers, target_labels, bone_type
 def read_and_decode(filename_queue=None, img_dims=[256,256,1], model_dims=[224,224,1], size_of_batch=32,\
                     augmentations_dic=None, num_of_threads=1, shuffle=True):
   """
-  Reads, decodes, apply augmentations to batch of images
+  Reads, decodes and applys augmentations to batch of images
   Inputs: filename_queue - Input queue for either train, val or test tfrecords 
           img_dims - dimensions of input image
           model_dims - output dimensions for model
