@@ -188,7 +188,7 @@ def encode(img_path, target_label, bone_type_label):
   Inputs: img_path - filepath to img
           target_label - label for img
           bone_type_label - label for bone type
-  Outputs: encoded tfrecord
+  Outputs: example - encoded tfrecord
   """
   img = Image.open(img_path)
   img = maintain_aspec_ratio_resize(img)
@@ -250,6 +250,10 @@ def read_and_decode(filename_queue=None, img_dims=[256,256,1], model_dims=[224,2
           augmentations_dic - dictionary with selected augmentations
           num_of_threads - number of threads selected
           shuffle - option to shuffle batch
+  Outputs: img - batch of images
+           t_l - batch of target labels
+           b_t - batch of bone types
+           f_p - batch of filepointers
   """
   reader = tf.TFRecordReader()
 
