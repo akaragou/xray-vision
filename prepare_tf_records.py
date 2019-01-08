@@ -11,8 +11,7 @@ import gc
 
 def compute_and_store_weights(dic, label_type):
   """
-  Computes and saves weights for abnormal 
-  or normal classes or distribution of bone types
+  Computes and saves weights for abnormal/normal classes or distribution of bone types
   Inputs: dic - dictionary of class to count
           label_type - type of label to compute class weigts for
   Outputs None

@@ -19,8 +19,10 @@ import math
 
 def test_resnet(device, dataset, checkpoint):
   """
-  Computes accuracy for the test dataset
-  Input: gpu device 
+  Computes accuracy and capa kohen for a specified dataset
+  Input: device - gpu device
+         dataset - options are train, val or test
+         checkpoint - tensorflow graph weights 
   Output: None
   """
   os.environ['CUDA_VISIBLE_DEVICES'] = str(device) # use nvidia-smi to see available options '0' means first gpu
