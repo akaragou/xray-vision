@@ -38,4 +38,4 @@ Then the user will be taken to a new page were the input X-Ray, heatmap of abnor
 
 ## Results From Trained Models
 
-![plot](https://user-images.githubusercontent.com/16754088/46711914-82c68900-cc1c-11e8-812f-175be41ee026.png)
+![plot](https://user-images.githubusercontent.com/16754088/50789160-725c9380-1289-11e9-93fa-5ad5fcb4d3ed.png)
