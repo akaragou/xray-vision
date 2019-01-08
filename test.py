@@ -19,7 +19,7 @@ import math
 
 def test_resnet(device, dataset, checkpoint):
   """
-  Computes accuracy and kappa cohen for a specified dataset
+  Computes accuracy and Cohen's kappa for a specified dataset
   Input: device - gpu device
          dataset - options are train, val or test
          checkpoint - tensorflow graph weights 
