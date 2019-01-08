@@ -23,20 +23,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['PROCESS_FOLDER'] = PROCESS_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 
 
-def maintain_aspec_ratio_resize(img, desired_size=256):
-  old_size = img.size  
-  ratio = float(desired_size)/max(old_size)
-  new_size = tuple([int(x*ratio) for x in old_size])
-
-  img = img.resize(new_size, Image.ANTIALIAS)
-
-  new_img = Image.new("RGB", (desired_size, desired_size))
-  new_img.paste(img, ((desired_size-new_size[0])//2,
-                    (desired_size-new_size[1])//2))
-
-  new_img = np.array(new_img)
-  return new_img
-
 def nocache(view):
   @wraps(view)
   def no_cache(*args, **kwargs):
@@ -106,7 +92,7 @@ def process_uploaded_image(filename):
 
   label = [1]
   graph = app.graph
-  ## NOW the complete graph with values has been restored
+  # NOW the complete graph with values has been restored
   inputs = graph.get_tensor_by_name("inputs:0")
   labels = graph.get_tensor_by_name("labels:0")
   preprocessed_inputs = graph.get_tensor_by_name("densenet121/imagenet_preprocessing/image_bgr:0")
@@ -135,11 +121,15 @@ def process_uploaded_image(filename):
   sum_M = np.sum(abs_M, axis=3)
   # prediction for current batch image
   mask = np.squeeze(sum_M)
+  # thresholding 99 percentile of activity 
   thres = np.percentile(mask.ravel(), 99)
+  # applying threshold
   idx = mask[:,:] < thres
   mask[idx] = 0
+  # applying gaussian blurr to smooth out activity heatmap
   kernel = np.ones((5,5),np.float32)/25
   mask = cv2.filter2D(mask,-1,kernel)
+  # superimpossing image with activity heatmap
   to_plot_img = np.squeeze(img)
   to_plot_img = cv2.resize(to_plot_img, (600, 600), cv2.INTER_LINEAR)
   mask = cv2.resize(mask, (600, 600), cv2.INTER_LINEAR)

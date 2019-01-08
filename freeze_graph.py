@@ -10,31 +10,28 @@ from tensorflow.contrib import slim
 from config import XRAYconfig
 
 def save_checkpoint():
+  """
+  Save checkpoint with correct input and output names
+  Inputs: None
+  Ouutputs: None
+  """
   config = XRAYconfig() 
 
   images = tf.placeholder(tf.float32, shape=[None,224,224,3], name='inputs')
   labels = tf.placeholder(tf.int32, shape=[None], name='labels')
 
-  # with tf.variable_scope('resnet_v2_50') as resnet_scope:
-  #   processed_image = imagenet_preprocessing(images)
-  #   with slim.arg_scope(resnet_v2.resnet_arg_scope()):
-  #     target_logits, _ = resnet_v2.resnet_v2_50(inputs = processed_image,
-  #                                                  num_classes = config.output_shape, 
-  #                                                  scope = resnet_scope,
-  #                                                  is_training=False)
-
   with tf.variable_scope('densenet121') as densenet_scope:
     processed_image = imagenet_preprocessing(images)
-    with slim.arg_scope(densenet.densenet_arg_scope(weight_decay = config.l2_reg, batch_norm_decay = config.batch_norm_decay, batch_norm_epsilon = config.batch_norm_epsilon)):
+    with slim.arg_scope(densenet.densenet_arg_scope(weight_decay = config.l2_reg, 
+                                                    batch_norm_decay = config.batch_norm_decay, 
+                                                    batch_norm_epsilon = config.batch_norm_epsilon)):
       target_logits, _ = densenet.densenet121(inputs = processed_image,
                                                    num_classes = config.output_shape, 
                                                    is_training=False,
                                                    scope = densenet_scope)
 
     oh_enc = tf.one_hot(labels, config.output_shape)
-    # logits = target_logits * oh_enc
     masked_logits = tf.multiply(target_logits, oh_enc, name='masked_logits')
-    # gradient = tf.gradients(logits, processed_image, name='gradients')
     prob = tf.nn.softmax(target_logits, name='probability')
 
   saver = tf.train.Saver() 
@@ -48,7 +45,11 @@ def save_checkpoint():
   sess.close()
 
 def freeze_graph():
-
+  """
+  Freeze tensorflow graph
+  Inputs: None
+  Ouutputs: None
+  """
   checkpoint =  "model_to_freeze.ckpt"
 
   saver = tf.train.import_meta_graph('model_to_freeze.ckpt.meta', clear_devices=True)

@@ -6,7 +6,6 @@ import argparse
 import datetime
 import numpy as np
 import time
-# import models.resnet_v2 as resnet_v2
 import models.se_resnet as se_resnet
 import models.densenet as densenet
 import models.unet_preprocess as unet_preprocess
@@ -15,7 +14,14 @@ from config import XRAYconfig
 from data_utils import tfrecord2metafilename, read_and_decode, imagenet_preprocessing
 
 def weighted_softmax_cross_entropy_with_logits(train_labels, train_logits, output_shape, weights_file):
-
+  """
+  Adds class weights to softmax cross entropy 
+  Inputs: train_labels - labels for batch of training images
+          train_logits - logits or scores for batch of train images
+          output_shape - number of classes
+          weight_file - numpy file of class weights (classes with lower reperesentation are given higher weights)
+  Outputs: loss - weighted softmax cross entropy 
+  """
   train_one_hot = tf.one_hot(train_labels, output_shape)
   class_weights = np.load(weights_file).astype(np.float32)
   tf_class_weights = tf.constant(class_weights)
@@ -23,11 +29,15 @@ def weighted_softmax_cross_entropy_with_logits(train_labels, train_logits, outpu
   weight_map = tf.reduce_sum(weight_map, axis=1)
   batch_loss = tf.nn.softmax_cross_entropy_with_logits_v2(labels = train_one_hot, logits = train_logits)
   weighted_batch_loss = tf.multiply(batch_loss, weight_map)
-
   loss = tf.reduce_mean(weighted_batch_loss)
   return loss
 
 def print_model_variables():
+    """
+    Prints tensorflow slim model variables
+    Input: None
+    Output: None
+    """
     print "Model Variables:"
     for var in slim.get_model_variables():
         print var 
@@ -35,13 +45,13 @@ def print_model_variables():
 def train_resnet(device, model):
   """
   Loads training and validations tf records and trains resnet model and validates every number of fixed steps.
-  Input: gpu device number 
-  Output None
+  Input: device - gpu device number 
+         model - name of deep learning model, options inclde: se_resnet_101 and densenet_121
+  Output: None
   """
   os.environ['CUDA_VISIBLE_DEVICES'] = str(device) # use nvidia-smi to see available options '0' means first gpu
-  config = XRAYconfig() # loads pathology configuration defined in resnet_config
+  config = XRAYconfig() # loads XRAYconfig configuration defined in resnet_config
   # load training data
-
   train_meta = np.load(tfrecord2metafilename(config.train_fn))
   print('Using train tfrecords: {0} | {1} images'.format(config.train_fn, len(train_meta['labels'])))
   train_filename_queue = tf.train.string_input_producer(
@@ -60,6 +70,7 @@ def train_resnet(device, model):
   print('Training model: {0}'.format(dt_stamp))
   print('-'*60)
 
+  # decoding training tfrecords
   train_img, train_t_l, train_b_t, _ = read_and_decode(filename_queue = train_filename_queue,
                                            img_dims = config.input_image_size,
                                            model_dims = config.model_image_size,
@@ -68,6 +79,7 @@ def train_resnet(device, model):
                                            num_of_threads = 4,
                                            shuffle = True)
 
+  # decoding validation tfrecords
   val_img, val_t_l, val_b_t, _  = read_and_decode(filename_queue = val_filename_queue,
                                        img_dims = config.input_image_size,
                                        model_dims = config.model_image_size,
@@ -89,7 +101,9 @@ def train_resnet(device, model):
     with tf.variable_scope('resnet_v2_101') as resnet_scope:
       with tf.name_scope('train') as train_scope:
         train_img = imagenet_preprocessing(train_img)
-        with slim.arg_scope(se_resnet.resnet_arg_scope(weight_decay = config.l2_reg, batch_norm_decay = config.batch_norm_decay, batch_norm_epsilon = config.batch_norm_epsilon)):
+        with slim.arg_scope(se_resnet.resnet_arg_scope(weight_decay = config.l2_reg, 
+                                                       batch_norm_decay = config.batch_norm_decay, 
+                                                       batch_norm_epsilon = config.batch_norm_epsilon)):
           train_target_logits, _ = se_resnet.se_resnet_101(inputs = train_img,                                                               
                                                           num_classes = config.output_shape,
                                                           scope = resnet_scope,                              
@@ -98,7 +112,9 @@ def train_resnet(device, model):
       resnet_scope.reuse_variables()  
       with tf.name_scope('val') as val_scope:
         val_img = imagenet_preprocessing(val_img)
-        with slim.arg_scope(se_resnet.resnet_arg_scope(weight_decay = config.l2_reg, batch_norm_decay = config.batch_norm_decay, batch_norm_epsilon = config.batch_norm_epsilon)):
+        with slim.arg_scope(se_resnet.resnet_arg_scope(weight_decay = config.l2_reg, 
+                                                       batch_norm_decay = config.batch_norm_decay, 
+                                                       batch_norm_epsilon = config.batch_norm_epsilon)):
           val_target_logits, _ = se_resnet.se_resnet_101(inputs = val_img,
                                                        num_classes = config.output_shape, 
                                                        scope = resnet_scope,
@@ -108,7 +124,9 @@ def train_resnet(device, model):
     with tf.variable_scope('densenet121') as densenet_scope:
       with tf.name_scope('train') as train_scope:
         train_img = imagenet_preprocessing(train_img)
-        with slim.arg_scope(densenet.densenet_arg_scope(weight_decay = config.l2_reg, batch_norm_decay = config.batch_norm_decay, batch_norm_epsilon = config.batch_norm_epsilon)):
+        with slim.arg_scope(densenet.densenet_arg_scope(weight_decay = config.l2_reg, 
+                                                        batch_norm_decay = config.batch_norm_decay, 
+                                                        batch_norm_epsilon = config.batch_norm_epsilon)):
           train_target_logits, _ = densenet.densenet121(inputs = train_img,                                                               
                                                           num_classes = config.output_shape,                      
                                                           is_training = True,
@@ -117,7 +135,9 @@ def train_resnet(device, model):
       densenet_scope.reuse_variables()  
       with tf.name_scope('val') as val_scope:
         val_img = imagenet_preprocessing(val_img)
-        with slim.arg_scope(densenet.densenet_arg_scope(weight_decay = config.l2_reg, batch_norm_decay = config.batch_norm_decay, batch_norm_epsilon = config.batch_norm_epsilon)):
+        with slim.arg_scope(densenet.densenet_arg_scope(weight_decay = config.l2_reg, 
+                                                        batch_norm_decay = config.batch_norm_decay, 
+                                                        batch_norm_epsilon = config.batch_norm_epsilon)):
           val_target_logits, _ = densenet.densenet121(inputs = val_img,
                                                        num_classes = config.output_shape, 
                                                        is_training=False,
@@ -137,7 +157,8 @@ def train_resnet(device, model):
           staircase = True) # if staircase is True decay the learning rate at discrete intervals
 
   if config.optimizer == "adam":
-    update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS) # used to update batch norm params. see https://www.tensorflow.org/api_docs/python/tf/layers/batch_normalization
+    update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS) # used to update batch norm params. 
+                                                            # see https://www.tensorflow.org/api_docs/python/tf/layers/batch_normalization
     with tf.control_dependencies(update_ops):
       train_op = tf.train.AdamOptimizer(lr).minimize(loss)
   elif config.optimizer == "sgd":
@@ -220,7 +241,7 @@ def train_resnet(device, model):
         if step_count % config.validate_every_num_steps == 0:
           it_val_acc = np.asarray([])
           for num_vals in range(config.num_batches_to_validate_over):
-              # Validation accuracy as the average of n batches
+            # Validation accuracy as the average of n batches
             it_val_acc = np.append(it_val_acc, sess.run(val_accuracy))
             sess.run(val_auc_op)
             
