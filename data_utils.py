@@ -171,7 +171,7 @@ def distort_brightness_constrast(image, ordering=0):
   """
   Apply brightness contrast distortion to images
   Inputs: image - input image
-          ordering - ordering whether to apply brightness augmentation or contrast augementation
+          ordering - ordering whether to apply brightness augmentation or contrast augementation first
   Outputs: None
   """
   if ordering == 0:
